@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import scrolledtext, messagebox, Listbox, SINGLE, END
+from tkinter import scrolledtext, messagebox, Listbox, SINGLE, END, filedialog
 from scapy.all import sniff, wrpcap
 import threading
 
@@ -88,10 +88,17 @@ class PacketSnifferApp:
             self.packet_listbox.insert(END, packet.summary())
 
     def save_packets(self):
-        # Save packets to a PCAP file
-        pcap_file = "captured_packets.pcap"
-        wrpcap(pcap_file, self.packets)  # Use wrpcap to write packets to a PCAP file
-        messagebox.showinfo("Save Packets", f"Packets saved to {pcap_file}")
+        # Open a file dialog to choose the file name and location
+        pcap_file = filedialog.asksaveasfilename(
+            defaultextension=".pcap",  # Ensure the file extension is .pcap
+            filetypes=[("PCAP files", "*.pcap"), ("All files", "*.*")],
+            title="Save Captured Packets"
+        )
+
+        # Check if the user provided a file name
+        if pcap_file:
+            wrpcap(pcap_file, self.packets)  # Use wrpcap to write packets to a PCAP file
+            messagebox.showinfo("Save Packets", f"Packets saved to {pcap_file}")
 
     def show_packet_details(self, event):
         try:
