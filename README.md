@@ -10,10 +10,20 @@ This project is a GUI-based packet sniffer application built using Python's Tkin
 - **Packet Display**: View a summary of each captured packet.
 - **Packet Details**: View detailed information about a selected packet.
 
-## Requirements
-- Python 3.x
-- Scapy library
-- Tkinter library (comes pre-installed with Python)
+# Requirements for GUI Packet Sniffer Application
+
+## 1. Software Requirements
+- **Python**: Version 3.6 or higher
+- **Libraries**:
+  - `tkinter`: For creating the GUI components.
+  - `scapy`: For packet sniffing and handling.
+  - `threading`: To run the packet sniffing process in a separate thread.
+
+## 2. Python Package Installation
+- Ensure that the following Python packages are installed:
+  ```bash
+  pip install scapy
+
 
 ## How to Run
 1. Ensure you have Python installed on your system.
