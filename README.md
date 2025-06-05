@@ -10,7 +10,7 @@ This project is a GUI-based packet sniffer application built using Python's Tkin
 - **Packet Display**: View a summary of each captured packet.
 - **Packet Details**: View detailed information about a selected packet.
 
-# Requirements for GUI Packet Sniffer Application
+## Requirements for GUI Packet Sniffer Application
 
 ## 1. Software Requirements
 - **Python**: Version 3.6 or higher
