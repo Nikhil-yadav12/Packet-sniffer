@@ -76,6 +76,15 @@ class PacketSnifferApp:
         self.stop_button.config(state=tk.DISABLED)
         self.save_button.config(state=tk.NORMAL)  # Enable save button after stopping
 
+    def sniff_packets(self):
+        """Capture packets until sniffer_running becomes False."""
+        from scapy.all import sniff
+        sniff(
+            prn=self.process_packet,
+            store=False,
+            stop_filter=lambda _: not self.sniffer_running,
+        )
+
     def process_packet(self, packet):
         if self.sniffer_running:  # Only add packets if sniffing is active
             self.packets.append(packet)  # Store the packet for later use
