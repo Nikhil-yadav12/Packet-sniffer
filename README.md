@@ -33,7 +33,7 @@ This project is a GUI-based packet sniffer application built using Python's Tkin
    ```
 3. Run the application using the command:
    ```bash
-   python gui_packet_sniffer.py
+   python "Packet Sniffer/gui_packet_sniffer.py"
    ```
 
 ## Code Overview
