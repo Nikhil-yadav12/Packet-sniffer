@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import scrolledtext, messagebox, Listbox, SINGLE, END, filedialog
-from scapy.all import sniff, wrpcap
-import threading
+from scapy.all import wrpcap, AsyncSniffer
 
 class PacketSnifferApp:
     def __init__(self, master):
@@ -49,7 +48,7 @@ class PacketSnifferApp:
         self.master.grid_rowconfigure(1, weight=1)
 
         self.sniffer_running = False
-        self.sniffer_thread = None
+        self.sniffer = None
         self.packets = []  # List to store captured packets
 
         # Bind double-click event on Listbox to show packet details
@@ -64,19 +63,18 @@ class PacketSnifferApp:
         self.packet_listbox.delete(0, END)  # Clear previous packets in Listbox
         self.details_display.delete(1.0, tk.END)  # Clear previous packet details
 
-        # Start sniffing in a new thread
-        self.sniffer_thread = threading.Thread(target=self.sniff_packets)
-        self.sniffer_thread.daemon = True  # Allow thread to close when the main program exits
-        self.sniffer_thread.start()
+        # Create and start AsyncSniffer to allow stopping
+        self.sniffer = AsyncSniffer(prn=self.process_packet, store=False)
+        self.sniffer.start()
 
     def stop_sniffing(self):
         self.sniffer_running = False
+        if self.sniffer is not None:
+            self.sniffer.stop()
+            self.sniffer = None
         self.start_button.config(state=tk.NORMAL)
         self.stop_button.config(state=tk.DISABLED)
         self.save_button.config(state=tk.NORMAL)  # Enable save button after stopping
-
-    def sniff_packets(self):
-        sniff(prn=self.process_packet, store=False)
 
     def process_packet(self, packet):
         if self.sniffer_running:  # Only add packets if sniffing is active
